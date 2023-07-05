@@ -1,0 +1,16 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/StarterContent/Architecture/Wall_Door_400x400.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Health_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Health_Row_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Health_Main_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Slot_UI.uasset"
+			]
+		}
+	]
+}

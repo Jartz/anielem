@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Source/Aniels_mobile/Aniels_mobile.Build.cs",
+		"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Source/Aniels_mobile.Target.cs",
+		"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Source/Aniels_mobileEditor.Target.cs"
+	],
+	"EngineVersion": "5.2.1"
+}

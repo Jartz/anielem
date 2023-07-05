@@ -1,0 +1,22 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{DB98C011-AD42-0DE7-FCDF-B1A56BA9180D}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "Aniels_mobile",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		}
+	]
+}
