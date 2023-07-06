@@ -3737,6 +3737,8 @@
   ../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h \
   Runtime/InputCore/Classes/InputCoreTypes.h \
   ../Plugins/EnhancedInput/Intermediate/Build/Mac/UnrealEditor/Inc/EnhancedInput/UHT/InputActionValue.generated.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/Pet_characters.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/Pet_characters.generated.h \
   /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/Aniels_mobileCharacter.generated.h \
   Runtime/Engine/Classes/Camera/CameraComponent.h \
   Runtime/CoreUObject/Public/UObject/ScriptInterface.h \
@@ -3888,11 +3890,13 @@
   Runtime/Engine/Classes/Engine/BlueprintGeneratedClass.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/WidgetBlueprintGeneratedClass.generated.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/UserWidget.generated.h \
+  Runtime/Engine/Classes/Engine/DamageEvents.h \
+  Runtime/Engine/Classes/Engine/HitResult.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/DamageEvents.generated.h \
   Runtime/Engine/Classes/Kismet/GameplayStatics.h \
   Runtime/Engine/Classes/Engine/LatentActionManager.h \
   Runtime/Engine/Classes/Kismet/BlueprintFunctionLibrary.h \
   Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h \
-  Runtime/Engine/Classes/Engine/HitResult.h \
   Runtime/CoreUObject/Public/UObject/SoftObjectPtr.h \
   Runtime/CoreUObject/Public/UObject/PropertyAccessUtil.h \
   Runtime/Core/Public/CoreGlobals.h \

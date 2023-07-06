@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "Pet_characters.h"
 #include "Aniels_mobileCharacter.generated.h"
 
 
@@ -53,6 +54,8 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+	void OnPressF();
+	APet_characters* GetEnemyPetInstance();
 	void ShowHealth(float Value);
 	void SetHealth(float Value) const;
 

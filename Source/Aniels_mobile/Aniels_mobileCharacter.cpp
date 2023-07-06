@@ -9,8 +9,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Pet_characters.h"
 #include "WidgetParameters.h"
 #include "Blueprint/UserWidget.h"
+#include "Engine/DamageEvents.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -59,6 +61,8 @@ void AAniels_mobileCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AAniels_mobileCharacter::OnPressF);
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -109,7 +113,6 @@ void AAniels_mobileCharacter::SetupPlayerInputComponent(class UInputComponent* P
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAniels_mobileCharacter::Look);
 
 	}
-
 }
 
 void AAniels_mobileCharacter::Move(const FInputActionValue& Value)
@@ -148,9 +151,36 @@ void AAniels_mobileCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void AAniels_mobileCharacter::OnPressF()
+{
+	APet_characters* EnemyPet = GetEnemyPetInstance();
+	if(EnemyPet)
+	{
+		float DamageAmount = 10.0f; // Cantidad de daño a aplicar
+		FString damageText = FString::Printf(TEXT("Apply Damage: %.2f"), DamageAmount);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, damageText);
+		EnemyPet->TakeDamage(DamageAmount,FDamageEvent{}, GetController(), this);	
+	}
+}
+
+
+APet_characters* AAniels_mobileCharacter::GetEnemyPetInstance()
+{
+	APet_characters* EnemyPet = nullptr;
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APet_characters::StaticClass(), FoundActors);
+	if (FoundActors.Num() > 0)
+	{
+		EnemyPet = Cast<APet_characters>(FoundActors[0]);
+	}
+
+	return EnemyPet;
+}
+
 
 void AAniels_mobileCharacter::ShowHealth(float Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("La tecla F ha sido presionada"));
 	FString WidgetClassName = TEXT("Health_Main_UI");
 	FString WidgetPath = FString::Printf(TEXT("/Game/Widget/%s.%s_C"), *WidgetClassName, *WidgetClassName);
 	UClass* WidgetClassLoaded = LoadClass<UUserWidget>(nullptr, *WidgetPath);
@@ -165,6 +195,9 @@ void AAniels_mobileCharacter::ShowHealth(float Value)
 	}else {
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Failed to load WidgetClass."));
 	}
+
+
+	
 }
 
 void AAniels_mobileCharacter::SetHealth(float Value) const

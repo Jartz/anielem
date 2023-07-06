@@ -3738,4 +3738,6 @@
   ../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h \
   Runtime/InputCore/Classes/InputCoreTypes.h \
   ../Plugins/EnhancedInput/Intermediate/Build/Mac/UnrealEditor/Inc/EnhancedInput/UHT/InputActionValue.generated.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/Pet_characters.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/Pet_characters.generated.h \
   /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/Aniels_mobileCharacter.generated.h

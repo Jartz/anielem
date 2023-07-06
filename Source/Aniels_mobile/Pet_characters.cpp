@@ -3,6 +3,8 @@
 
 #include "Pet_characters.h"
 
+#include "Blueprint/UserWidget.h"
+
 // Sets default values
 APet_characters::APet_characters()
 {
@@ -29,6 +31,25 @@ void APet_characters::Tick(float DeltaTime)
 void APet_characters::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
+
+
+
+
+float APet_characters::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Health -= DamageAmount;
+
+	if (Health <= 0.0f)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Enemy is death"));
+		this->Destroy();
+	}
+	
+	return Health;
+}
+
+
+
+
 
