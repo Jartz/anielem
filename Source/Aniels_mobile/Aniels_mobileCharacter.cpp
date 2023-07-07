@@ -12,7 +12,10 @@
 #include "Pet_characters.h"
 #include "WidgetParameters.h"
 #include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/Button.h"
 #include "Engine/DamageEvents.h"
+#include "AbilityStruct.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -62,7 +65,7 @@ void AAniels_mobileCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
-	InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AAniels_mobileCharacter::OnPressF);
+	 InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AAniels_mobileCharacter::OnPressF);
 
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -72,9 +75,14 @@ void AAniels_mobileCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	ShowHealth(Health);
 
-
+	if(WidgetHealth)
+	{
+		WidgetHealth->AddToViewport();
+		SetHealth(Health);
+		ListenActionWidget();
+	}
+	
 	// Obtén el jugador del mundo
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	// Habilita la visibilidad del cursor del mouse
@@ -88,10 +96,7 @@ void AAniels_mobileCharacter::BeginPlay()
 void AAniels_mobileCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	SetHealth(Health);
-
-	// Coloca aquí tu código para ejecutar en cada frame
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -153,14 +158,21 @@ void AAniels_mobileCharacter::Look(const FInputActionValue& Value)
 
 void AAniels_mobileCharacter::OnPressF()
 {
-	APet_characters* EnemyPet = GetEnemyPetInstance();
-	if(EnemyPet)
+	ShowInventory();
+}
+
+
+void AAniels_mobileCharacter::ShowInventory()
+{
+	isActiveInventary = !isActiveInventary;
+	if(WidgetMenu && isActiveInventary)
 	{
-		float DamageAmount = 10.0f; // Cantidad de daño a aplicar
-		FString damageText = FString::Printf(TEXT("Apply Damage: %.2f"), DamageAmount);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, damageText);
-		EnemyPet->TakeDamage(DamageAmount,FDamageEvent{}, GetController(), this);	
+		WidgetMenu->AddToViewport();
+	} else
+	{
+		WidgetMenu->RemoveFromParent();
 	}
+	
 }
 
 
@@ -178,26 +190,45 @@ APet_characters* AAniels_mobileCharacter::GetEnemyPetInstance()
 }
 
 
-void AAniels_mobileCharacter::ShowHealth(float Value)
+// void AAniels_mobileCharacter::ShowHealth(float Value)
+// {
+// 	FString WidgetClassName = TEXT("Health_Main_UI");
+// 	FString WidgetPath = FString::Printf(TEXT("/Game/Widget/%s.%s_C"), *WidgetClassName, *WidgetClassName);
+// 	UClass* WidgetClassLoaded = LoadClass<UUserWidget>(nullptr, *WidgetPath);
+// 	if (WidgetClassLoaded){
+// 		WidgetHealth = CreateWidget<UUserWidget>(GetWorld(), WidgetClassLoaded);
+// 		if (WidgetHealth != nullptr)
+// 		{
+// 			WidgetHealth->AddToViewport();
+// 			SetHealth(Value);
+// 			ListenActionWidget();
+// 		}
+// 	}else {
+// 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Failed to load WidgetClass."));
+// 	}
+// }
+
+void AAniels_mobileCharacter::ListenActionWidget()
 {
-	UE_LOG(LogTemp, Warning, TEXT("La tecla F ha sido presionada"));
-	FString WidgetClassName = TEXT("Health_Main_UI");
-	FString WidgetPath = FString::Printf(TEXT("/Game/Widget/%s.%s_C"), *WidgetClassName, *WidgetClassName);
-	UClass* WidgetClassLoaded = LoadClass<UUserWidget>(nullptr, *WidgetPath);
-	if (WidgetClassLoaded){
-		WidgetHealth = CreateWidget<UUserWidget>(GetWorld(), WidgetClassLoaded);
-		if (WidgetHealth != nullptr)
-		{
-			WidgetHealth->AddToViewport();
-			SetHealth(Value);
-			
-		}
-	}else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Failed to load WidgetClass."));
+
+	WidgetHealth->WidgetTree->ForEachWidget([&](UWidget* ChildWidget) {
+		   FString WidgetName = ChildWidget->GetName();
+		   UE_LOG(LogTemp, Warning, TEXT("Child Widget Name: %s"), *WidgetName);
+	   });
+
+	UButton* Button = Cast<UButton>(WidgetHealth->GetWidgetFromName(TEXT("Button_183")));
+	if (Button)
+	{
+		
+		Button->OnClicked.AddDynamic(this, &AAniels_mobileCharacter::ClickedCallback);
 	}
+}
 
 
-	
+void AAniels_mobileCharacter::ClickedCallback()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("detect button"));
+	// OnPressF();
 }
 
 void AAniels_mobileCharacter::SetHealth(float Value) const
@@ -206,11 +237,30 @@ void AAniels_mobileCharacter::SetHealth(float Value) const
 	if (Method)
 	{
 		FHealthStruct parameter;
-		parameter.Value =  Value / 100.0f;
+		parameter.Value = Value / 100.0f;
 		WidgetHealth->ProcessEvent(Method, &parameter);
 	} else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Failed to load SetHealthRowfuction."));
+	}
+}
+
+void AAniels_mobileCharacter::PressAbility_Implementation(const FAbilityStruct& AbilityStruct)
+{
+	FString DebugMessage = FString::Printf(TEXT("My variable value: %s"), *AbilityStruct.Name);
+	makeDamage(AbilityStruct);
+
+}
+
+
+void AAniels_mobileCharacter::makeDamage(const FAbilityStruct& AbilityStruct)
+{
+	APet_characters* EnemyPet = GetEnemyPetInstance();
+	if(EnemyPet)
+	{
+		FString damageText = FString::Printf(TEXT("Apply Damage: %.2f"), AbilityStruct.Damage);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, damageText);
+		EnemyPet->TakeDamage(AbilityStruct.Damage,FDamageEvent{}, GetController(), this);	
 	}
 }
 

@@ -1,6 +1,7 @@
 -c
 -pipe
 -I"."
+-I"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Source/Aniels_mobile/Private"
 -I"../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT"
 -I"../Shaders/Shared"
 -I"Runtime/Engine/Classes"
@@ -273,6 +274,7 @@
 -I"Developer/AnimationDataController/Public"
 -I"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT"
 -I"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Source"
+-I"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Source/Aniels_mobile/Public"
 -I"../Intermediate/Build/Mac/UnrealEditor/Inc/AugmentedReality/UHT"
 -I"Runtime/AugmentedReality/Public"
 -I"../Intermediate/Build/Mac/UnrealEditor/Inc/MRMesh/UHT"

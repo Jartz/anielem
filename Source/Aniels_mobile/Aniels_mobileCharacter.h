@@ -3,14 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "Private/Interfaces/ActionAbilityInterface.h"
 #include "InputActionValue.h"
 #include "Pet_characters.h"
+#include "GameFramework/Character.h"
+#include "AbilityStruct.h"
 #include "Aniels_mobileCharacter.generated.h"
 
 
 UCLASS(config=Game)
-class AAniels_mobileCharacter : public ACharacter
+class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterface
 {
 	GENERATED_BODY()
 
@@ -41,11 +43,20 @@ class AAniels_mobileCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
 	double Health = 100.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UUserWidget* WidgetHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UUserWidget* WidgetMenu;
+
+
 public:
 	AAniels_mobileCharacter();
-	
+	void PressAbility_Implementation(const FAbilityStruct& AbilityStruct) override;
+	void makeDamage(const FAbilityStruct& AbilityStruct);
+
 private:
-	UUserWidget* WidgetHealth;	
+	
 
 protected:
 
@@ -55,9 +66,16 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 	void OnPressF();
+	void ShowInventory();
 	APet_characters* GetEnemyPetInstance();
 	void ShowHealth(float Value);
+	void ListenActionWidget();
 	void SetHealth(float Value) const;
+	bool isActiveInventary = false;
+	
+
+	UFUNCTION()
+	void ClickedCallback();
 
 protected:
 	// APawn interface

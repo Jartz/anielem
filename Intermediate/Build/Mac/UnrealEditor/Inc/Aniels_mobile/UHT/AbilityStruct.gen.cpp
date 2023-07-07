@@ -53,6 +53,10 @@ template<> ANIELS_MOBILE_API UScriptStruct* StaticStruct<FAbilityStruct>()
 #endif
 		static const UECodeGen_Private::FFloatPropertyParams NewProp_CastTime;
 #if WITH_METADATA
+		static const UECodeGen_Private::FMetaDataPairParam NewProp_Damage_MetaData[];
+#endif
+		static const UECodeGen_Private::FFloatPropertyParams NewProp_Damage;
+#if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_IconName_MetaData[];
 #endif
 		static const UECodeGen_Private::FObjectPropertyParams NewProp_IconName;
@@ -105,6 +109,13 @@ template<> ANIELS_MOBILE_API UScriptStruct* StaticStruct<FAbilityStruct>()
 #endif
 	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_CastTime = { "CastTime", nullptr, (EPropertyFlags)0x0010000000000004, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(FAbilityStruct, CastTime), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_CastTime_MetaData, UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_CastTime_MetaData)) };
 #if WITH_METADATA
+	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Damage_MetaData[] = {
+		{ "Category", "Ability" },
+		{ "ModuleRelativePath", "AbilityStruct.h" },
+	};
+#endif
+	const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Damage = { "Damage", nullptr, (EPropertyFlags)0x0010000000000004, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, nullptr, nullptr, STRUCT_OFFSET(FAbilityStruct, Damage), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Damage_MetaData, UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Damage_MetaData)) };
+#if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_IconName_MetaData[] = {
 		{ "Category", "Ability" },
 		{ "ModuleRelativePath", "AbilityStruct.h" },
@@ -117,6 +128,7 @@ template<> ANIELS_MOBILE_API UScriptStruct* StaticStruct<FAbilityStruct>()
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Cost,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Cooldown,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_CastTime,
+		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_Damage,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewProp_IconName,
 	};
 	const UECodeGen_Private::FStructParams Z_Construct_UScriptStruct_FAbilityStruct_Statics::ReturnStructParams = {
@@ -145,9 +157,9 @@ template<> ANIELS_MOBILE_API UScriptStruct* StaticStruct<FAbilityStruct>()
 		static const FStructRegisterCompiledInInfo ScriptStructInfo[];
 	};
 	const FStructRegisterCompiledInInfo Z_CompiledInDeferFile_FID_julianramos_Documents_Unreal_Projects_Aniels_mobile_Source_Aniels_mobile_AbilityStruct_h_Statics::ScriptStructInfo[] = {
-		{ FAbilityStruct::StaticStruct, Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewStructOps, TEXT("AbilityStruct"), &Z_Registration_Info_UScriptStruct_AbilityStruct, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FAbilityStruct), 2283308932U) },
+		{ FAbilityStruct::StaticStruct, Z_Construct_UScriptStruct_FAbilityStruct_Statics::NewStructOps, TEXT("AbilityStruct"), &Z_Registration_Info_UScriptStruct_AbilityStruct, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FAbilityStruct), 3456184983U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_julianramos_Documents_Unreal_Projects_Aniels_mobile_Source_Aniels_mobile_AbilityStruct_h_1848546153(TEXT("/Script/Aniels_mobile"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_julianramos_Documents_Unreal_Projects_Aniels_mobile_Source_Aniels_mobile_AbilityStruct_h_140172570(TEXT("/Script/Aniels_mobile"),
 		nullptr, 0,
 		Z_CompiledInDeferFile_FID_julianramos_Documents_Unreal_Projects_Aniels_mobile_Source_Aniels_mobile_AbilityStruct_h_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_julianramos_Documents_Unreal_Projects_Aniels_mobile_Source_Aniels_mobile_AbilityStruct_h_Statics::ScriptStructInfo),
 		nullptr, 0);

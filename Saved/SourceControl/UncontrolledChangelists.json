@@ -13,10 +13,19 @@
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/D/VJ/HZ4LA7T9RK3NHC0SWAR5FY.uasset",
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/2/FU/3TBB15TT7XS51WR0STD0SL.uasset",
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/1/4H/18H3VLG52DD0LHTDTDR2WV.uasset",
-				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Characters/enemy_pet_characters.uasset",
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/pets/enemy_pet_characters.uasset",
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/__ExternalActors__/ThirdPerson/Maps/ThirdPersonMap/2/4M/TPHI07JFZ2I6CO7V07AMA8.uasset",
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/pets/Widget/Pet_Health_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/ThirdPerson/Blueprints/BP_ThirdPersonCharacter.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/ItemData/ItemsTable.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Ability_Interface.uasset",
+				"/Users/Shared/EpicGames/UE_5.2/Engine/Content/EditorBlueprintResources/StandardMacros.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Inventory/Inventory_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Inventory/Slot_Invetory_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Assets/derribo.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Assets/lanzaRoca.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Inventory/Menu_UI.uasset",
+				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Characters/enemy_pet_characters.uasset",
 				"/Users/julianramos/Documents/Unreal Projects/Aniels_mobile/Content/Widget/Health_UI.uasset"
 			]
 		}

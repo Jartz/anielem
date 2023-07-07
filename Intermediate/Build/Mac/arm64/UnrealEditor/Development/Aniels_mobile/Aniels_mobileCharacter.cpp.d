@@ -3710,8 +3710,17 @@
   /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/arm64/UnrealEditor/Development/Aniels_mobile/Definitions.Aniels_mobile.h \
   /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/Aniels_mobileCharacter.h \
   Runtime/Core/Public/CoreMinimal.h \
-  Runtime/Engine/Classes/GameFramework/Character.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/Private/Interfaces/ActionAbilityInterface.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/AbilityStruct.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/AbilityStruct.generated.h \
   Runtime/CoreUObject/Public/UObject/ObjectMacros.h \
+  Runtime/CoreUObject/Public/UObject/ScriptMacros.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/ActionAbilityInterface.generated.h \
+  ../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h \
+  Runtime/InputCore/Classes/InputCoreTypes.h \
+  ../Plugins/EnhancedInput/Intermediate/Build/Mac/UnrealEditor/Inc/EnhancedInput/UHT/InputActionValue.generated.h \
+  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/Pet_characters.h \
+  Runtime/Engine/Classes/GameFramework/Character.h \
   Runtime/CoreUObject/Public/UObject/UObjectGlobals.h \
   Runtime/CoreUObject/Public/Templates/SubclassOf.h \
   Runtime/CoreUObject/Public/UObject/CoreNet.h \
@@ -3726,7 +3735,6 @@
   Runtime/Core/Public/Containers/BitArray.h \
   Runtime/Experimental/Iris/Core/Public/Iris/Serialization/IrisObjectReferencePackageMap.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/IrisCore/UHT/IrisObjectReferencePackageMap.generated.h \
-  Runtime/CoreUObject/Public/UObject/ScriptMacros.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/CharacterMovementReplication.generated.h \
   Runtime/Engine/Classes/Animation/AnimationAsset.h \
   Runtime/Engine/Classes/GameFramework/RootMotionSource.h \
@@ -3734,10 +3742,6 @@
   Runtime/CoreUObject/Public/UObject/Class.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/RootMotionSource.generated.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/Character.generated.h \
-  ../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputActionValue.h \
-  Runtime/InputCore/Classes/InputCoreTypes.h \
-  ../Plugins/EnhancedInput/Intermediate/Build/Mac/UnrealEditor/Inc/EnhancedInput/UHT/InputActionValue.generated.h \
-  /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Source/Aniels_mobile/Pet_characters.h \
   /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/Pet_characters.generated.h \
   /Users/julianramos/Documents/Unreal\ Projects/Aniels_mobile/Intermediate/Build/Mac/UnrealEditor/Inc/Aniels_mobile/UHT/Aniels_mobileCharacter.generated.h \
   Runtime/Engine/Classes/Camera/CameraComponent.h \
@@ -3890,6 +3894,17 @@
   Runtime/Engine/Classes/Engine/BlueprintGeneratedClass.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/WidgetBlueprintGeneratedClass.generated.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/UserWidget.generated.h \
+  Runtime/UMG/Public/Blueprint/WidgetTree.h \
+  Runtime/UMG/Public/Components/PanelWidget.h \
+  Runtime/UMG/Public/Components/PanelSlot.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/PanelSlot.generated.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/PanelWidget.generated.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/WidgetTree.generated.h \
+  Runtime/UMG/Public/Components/Button.h \
+  Runtime/SlateCore/Public/Styling/SlateTypes.h \
+  Runtime/UMG/Public/Components/ContentWidget.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/ContentWidget.generated.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/UMG/UHT/Button.generated.h \
   Runtime/Engine/Classes/Engine/DamageEvents.h \
   Runtime/Engine/Classes/Engine/HitResult.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/DamageEvents.generated.h \
