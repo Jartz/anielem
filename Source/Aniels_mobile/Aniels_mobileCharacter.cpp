@@ -19,6 +19,8 @@
 #include "EngineUtils.h"
 // #include "NavigationSystem.h"
 #include "AIController.h"
+// #include "Aniels_mobile/Public/Helper/Helper.h"
+#include "Helper/Helper.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Perception/PawnSensingComponent.h"
@@ -84,6 +86,11 @@ void AAniels_mobileCharacter::BeginPlay()
 		WidgetHealth->AddToViewport();
 		SetHealth(Health);
 		ListenActionWidget();
+	} else
+	{
+		WidgetHealth = UHelper::LoadWidgetWithName("Health_Main_UI", GetWorld());
+		SetHealth(Health);
+		ListenActionWidget();
 	}
 	
 	// Obtén el jugador del mundo
@@ -115,7 +122,6 @@ void AAniels_mobileCharacter::Tick(float DeltaTime)
 	{
 		isMoved = true;
 	}
-	
 	PreviousLocation = CurrentLocation;
 	
 	
@@ -223,24 +229,6 @@ APet_characters* AAniels_mobileCharacter::GetEnemyPetInstance()
 }
 
 
-// void AAniels_mobileCharacter::ShowHealth(float Value)
-// {
-// 	FString WidgetClassName = TEXT("Health_Main_UI");
-// 	FString WidgetPath = FString::Printf(TEXT("/Game/Widget/%s.%s_C"), *WidgetClassName, *WidgetClassName);
-// 	UClass* WidgetClassLoaded = LoadClass<UUserWidget>(nullptr, *WidgetPath);
-// 	if (WidgetClassLoaded){
-// 		WidgetHealth = CreateWidget<UUserWidget>(GetWorld(), WidgetClassLoaded);
-// 		if (WidgetHealth != nullptr)
-// 		{
-// 			WidgetHealth->AddToViewport();
-// 			SetHealth(Value);
-// 			ListenActionWidget();
-// 		}
-// 	}else {
-// 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Failed to load WidgetClass."));
-// 	}
-// }
-
 void AAniels_mobileCharacter::ListenActionWidget()
 {
 
@@ -279,7 +267,6 @@ void AAniels_mobileCharacter::SetHealth(float Value) const
 
 void AAniels_mobileCharacter::PressAbility_Implementation(const FAbilityStruct& AbilityStruct)
 {
-	FString DebugMessage = FString::Printf(TEXT("My variable value: %s"), *AbilityStruct.Name);
 	makeDamage(AbilityStruct);
 
 }
@@ -307,6 +294,7 @@ void AAniels_mobileCharacter::CambiarEntrePersonajes()
 		ACharacter* NewCharacter = *ActorItr;
 		AAniels_mobileCharacter* AnielsCharacter = Cast<AAniels_mobileCharacter>(NewCharacter);
 		if (CurrentCharacter != NewCharacter && AnielsCharacter) {
+			PlayerController->UnPossess();
 			PlayerController->Possess(NewCharacter);
 			FollowCharacter(NewCharacter,CurrentCharacter, PlayerController);
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, NewCharacter->GetName());
@@ -358,6 +346,7 @@ void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACh
 {
 	if (IsHuman) { return; }
 	ACharacter* CurrentCharacter = Cast<ACharacter>(FollowerCharacter);
+	AIControllerPlayer->UnPossess();
 	AIControllerPlayer->Possess(CurrentCharacter);
 	
 	if (CharacterToFollow && FollowerCharacter)
@@ -374,33 +363,6 @@ void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACh
 	}
 }
 
-
-
-
-
-// void AAniels_mobileCharacter::LoadCharacter()
-// {
-//
-// 	FString nameFile = TEXT("BP_animelCharacter");
-// 	FString CharacterPath = FString::Printf(TEXT("/Game/ThirdPerson/Blueprints/%s.%s_C"), *nameFile, *nameFile);
-// 	
-// 	UClass* CharacterClass = LoadObject<UClass>(nullptr, *CharacterPath);
-// 	if (CharacterClass && CharacterClass->IsChildOf(ACharacter::StaticClass()))
-// 	{
-// 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-// 		ACharacter* Character = GetWorld()->SpawnActor<ACharacter>(CharacterClass, PlayerController->GetSpawnLocation(), FRotator::ZeroRotator);
-//
-// 		if (Character)
-// 		{
-// 			PlayerController->UnPossess();
-// 			PlayerController->Possess(Character);
-// 		}
-// 		else
-// 		{
-// 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("No cargo el personaje"));
-// 		}
-// 	}
-// }
 
 
 

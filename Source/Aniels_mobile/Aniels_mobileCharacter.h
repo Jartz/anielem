@@ -49,6 +49,7 @@ class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterfac
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UUserWidget* WidgetMenu;
+
 	AAIController* AIControllerPlayer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
