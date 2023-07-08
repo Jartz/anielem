@@ -54,6 +54,9 @@ public:
 	AAniels_mobileCharacter();
 	void PressAbility_Implementation(const FAbilityStruct& AbilityStruct) override;
 	void makeDamage(const FAbilityStruct& AbilityStruct);
+	void CambiarEntrePersonajes();
+	void LoadCharacter();
+	void FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter);
 
 private:
 	
@@ -66,6 +69,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 	void OnPressF();
+	void OnPressG();
 	void ShowInventory();
 	APet_characters* GetEnemyPetInstance();
 	void ShowHealth(float Value);

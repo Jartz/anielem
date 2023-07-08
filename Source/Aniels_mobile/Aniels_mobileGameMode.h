@@ -11,6 +11,8 @@ class AAniels_mobileGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+private:
+	ACharacter* ActiveCharacter;
 public:
 	AAniels_mobileGameMode();
 };

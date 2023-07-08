@@ -16,6 +16,9 @@
 #include "Components/Button.h"
 #include "Engine/DamageEvents.h"
 #include "AbilityStruct.h"
+#include "EngineUtils.h"
+// #include "NavigationSystem.h"
+// #include "AIController.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -64,9 +67,7 @@ void AAniels_mobileCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-
-	 InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AAniels_mobileCharacter::OnPressF);
-
+	
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -118,6 +119,8 @@ void AAniels_mobileCharacter::SetupPlayerInputComponent(class UInputComponent* P
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAniels_mobileCharacter::Look);
 
 	}
+	InputComponent->BindKey(EKeys::F, IE_Pressed, this, &AAniels_mobileCharacter::OnPressF);
+	InputComponent->BindKey(EKeys::G, IE_Pressed, this, &AAniels_mobileCharacter::OnPressG);
 }
 
 void AAniels_mobileCharacter::Move(const FInputActionValue& Value)
@@ -161,18 +164,27 @@ void AAniels_mobileCharacter::OnPressF()
 	ShowInventory();
 }
 
+void AAniels_mobileCharacter::OnPressG()
+{
+
+	CambiarEntrePersonajes();
+}
+
 
 void AAniels_mobileCharacter::ShowInventory()
 {
 	isActiveInventary = !isActiveInventary;
-	if(WidgetMenu && isActiveInventary)
+	if (WidgetMenu)
 	{
-		WidgetMenu->AddToViewport();
-	} else
-	{
-		WidgetMenu->RemoveFromParent();
+		if (isActiveInventary)
+		{
+			WidgetMenu->AddToViewport();
+		}
+		else
+		{
+			WidgetMenu->RemoveFromParent();
+		}
 	}
-	
 }
 
 
@@ -228,7 +240,6 @@ void AAniels_mobileCharacter::ListenActionWidget()
 void AAniels_mobileCharacter::ClickedCallback()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("detect button"));
-	// OnPressF();
 }
 
 void AAniels_mobileCharacter::SetHealth(float Value) const
@@ -263,4 +274,73 @@ void AAniels_mobileCharacter::makeDamage(const FAbilityStruct& AbilityStruct)
 		EnemyPet->TakeDamage(AbilityStruct.Damage,FDamageEvent{}, GetController(), this);	
 	}
 }
+
+void AAniels_mobileCharacter::CambiarEntrePersonajes()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("CHANGE CHARACTER"));
+	TArray<ACharacter*> CharactersInLevel;
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	ACharacter* CurrentCharacter = Cast<ACharacter>(PlayerController->GetPawn());
+	for (TActorIterator<ACharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		ACharacter* Character = *ActorItr;
+		AAniels_mobileCharacter* AnielsCharacter = Cast<AAniels_mobileCharacter>(Character);
+		if (CurrentCharacter != Character && AnielsCharacter) {
+		//	PlayerController->UnPossess();
+			PlayerController->Possess(Character);
+			FollowCharacter(Character,CurrentCharacter);
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, Character->GetName());
+	}
+
+	//LoadCharacter();
+}
+
+
+void AAniels_mobileCharacter::LoadCharacter()
+{
+
+	FString nameFile = TEXT("BP_animelCharacter");
+	FString CharacterPath = FString::Printf(TEXT("/Game/ThirdPerson/Blueprints/%s.%s_C"), *nameFile, *nameFile);
+	
+	UClass* CharacterClass = LoadObject<UClass>(nullptr, *CharacterPath);
+	if (CharacterClass && CharacterClass->IsChildOf(ACharacter::StaticClass()))
+	{
+		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		ACharacter* Character = GetWorld()->SpawnActor<ACharacter>(CharacterClass, PlayerController->GetSpawnLocation(), FRotator::ZeroRotator);
+
+		if (Character)
+		{
+			PlayerController->UnPossess();
+			PlayerController->Possess(Character);
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("No cargo el personaje"));
+		}
+	}
+}
+
+void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter)
+{
+	// if (CharacterToFollow && FollowerCharacter)
+	// {
+	// 	if (AAIController* FollowerAIController = Cast<AAIController>(FollowerCharacter->GetController()))
+	// 	{
+	// 		UNavigationSystemV1* NavigationSystem = UNavigationSystemV1::GetCurrent(GetWorld());
+	// 		if (NavigationSystem)
+	// 		{
+	// 			FollowerAIController->MoveToActor(CharacterToFollow);
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("The controller no have AIController"));
+	// 	}
+	// }
+}
+
+
+
+
 
