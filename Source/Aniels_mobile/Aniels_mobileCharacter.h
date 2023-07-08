@@ -61,11 +61,11 @@ public:
 	void CambiarEntrePersonajes();
 	void FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter,
 	                     APlayerController* PlayerController);
-	void FollowPokemonInitial();
+	void LoadSensingComponent();
+	void FollowPokemonToPlayer();
 	void LoadCharacter();
 
 
-private:
 	
 
 protected:
@@ -83,10 +83,14 @@ protected:
 	void ListenActionWidget();
 	void SetHealth(float Value) const;
 	bool isActiveInventary = false;
+	FVector PreviousLocation;
+	bool isMoved = false;
 	
 
 	UFUNCTION()
 	void ClickedCallback();
+	UFUNCTION()
+	void OnSeePawnHandler(APawn* DetectedPawn);
 
 protected:
 	// APawn interface

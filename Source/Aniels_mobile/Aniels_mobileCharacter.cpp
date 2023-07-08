@@ -19,7 +19,9 @@
 #include "EngineUtils.h"
 // #include "NavigationSystem.h"
 #include "AIController.h"
+#include "Perception/AIPerceptionComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Perception/PawnSensingComponent.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -94,8 +96,8 @@ void AAniels_mobileCharacter::BeginPlay()
 
 	// add AiController default
 	AIControllerPlayer = GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass());
-
-	FollowPokemonInitial();
+	LoadSensingComponent();
+    FollowPokemonToPlayer();
 	
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->SetInputMode(FInputModeGameAndUI());
 }
@@ -103,6 +105,19 @@ void AAniels_mobileCharacter::BeginPlay()
 void AAniels_mobileCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (IsHuman) {return;}
+	FVector CurrentLocation = GetActorLocation();
+	if (CurrentLocation == PreviousLocation)
+	{
+		isMoved = false;
+	} else
+	{
+		isMoved = true;
+	}
+	
+	PreviousLocation = CurrentLocation;
+	
 	
 }
 
@@ -299,31 +314,31 @@ void AAniels_mobileCharacter::CambiarEntrePersonajes()
 	}
 }
 
-void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter, APlayerController* PlayerController)
-{
 
-	if (IsHuman) { return; }
-	ACharacter* CurrentCharacter = Cast<ACharacter>(FollowerCharacter);
-	AIControllerPlayer->Possess(CurrentCharacter);
-	
-	if (CharacterToFollow && FollowerCharacter)
+
+void AAniels_mobileCharacter::LoadSensingComponent()
+{
+	UPawnSensingComponent* SensingComponent = FindComponentByClass<UPawnSensingComponent>();
+	if (SensingComponent)
 	{
-		if (AIControllerPlayer)
-		{
-			AIControllerPlayer->MoveToActor(CharacterToFollow);
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("The controller no have AIControllerPlayer"));
-		}
+		SensingComponent->OnSeePawn.AddDynamic(this, &AAniels_mobileCharacter::OnSeePawnHandler);
+	}
+}
+
+void AAniels_mobileCharacter::OnSeePawnHandler(APawn* DetectedPawn)
+{
+	if (!isMoved)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("OnSeePawnHandler"));
+		FollowPokemonToPlayer();	
 	}
 }
 
 
-void AAniels_mobileCharacter::FollowPokemonInitial()
+void AAniels_mobileCharacter::FollowPokemonToPlayer()
 {
+	
 	if (IsHuman) {return;}
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("FollowPokemonInitial"));
 	TArray<ACharacter*> CharactersInLevel;
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
 	ACharacter* CurrentCharacterPLayer = Cast<ACharacter>(PlayerController->GetPawn());
@@ -334,36 +349,58 @@ void AAniels_mobileCharacter::FollowPokemonInitial()
 		AAniels_mobileCharacter* AnielsCharacter = Cast<AAniels_mobileCharacter>(NewCharacter);
 		if (CurrentCharacterPLayer != NewCharacter && AnielsCharacter) {
 			FollowCharacter(CurrentCharacterPLayer,NewCharacter, PlayerController);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, CurrentCharacterPLayer->GetName());
 		}
 	}
 }
 
 
-
-void AAniels_mobileCharacter::LoadCharacter()
+void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter, APlayerController* PlayerController)
 {
-
-	FString nameFile = TEXT("BP_animelCharacter");
-	FString CharacterPath = FString::Printf(TEXT("/Game/ThirdPerson/Blueprints/%s.%s_C"), *nameFile, *nameFile);
+	if (IsHuman) { return; }
+	ACharacter* CurrentCharacter = Cast<ACharacter>(FollowerCharacter);
+	AIControllerPlayer->Possess(CurrentCharacter);
 	
-	UClass* CharacterClass = LoadObject<UClass>(nullptr, *CharacterPath);
-	if (CharacterClass && CharacterClass->IsChildOf(ACharacter::StaticClass()))
+	if (CharacterToFollow && FollowerCharacter)
 	{
-		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-		ACharacter* Character = GetWorld()->SpawnActor<ACharacter>(CharacterClass, PlayerController->GetSpawnLocation(), FRotator::ZeroRotator);
-
-		if (Character)
+		if (AIControllerPlayer)
 		{
-			PlayerController->UnPossess();
-			PlayerController->Possess(Character);
+				AIControllerPlayer->MoveToActor(CharacterToFollow);
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("MoveToActor"));
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("No cargo el personaje"));
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("The controller no have AIControllerPlayer"));
 		}
 	}
 }
+
+
+
+
+
+// void AAniels_mobileCharacter::LoadCharacter()
+// {
+//
+// 	FString nameFile = TEXT("BP_animelCharacter");
+// 	FString CharacterPath = FString::Printf(TEXT("/Game/ThirdPerson/Blueprints/%s.%s_C"), *nameFile, *nameFile);
+// 	
+// 	UClass* CharacterClass = LoadObject<UClass>(nullptr, *CharacterPath);
+// 	if (CharacterClass && CharacterClass->IsChildOf(ACharacter::StaticClass()))
+// 	{
+// 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+// 		ACharacter* Character = GetWorld()->SpawnActor<ACharacter>(CharacterClass, PlayerController->GetSpawnLocation(), FRotator::ZeroRotator);
+//
+// 		if (Character)
+// 		{
+// 			PlayerController->UnPossess();
+// 			PlayerController->Possess(Character);
+// 		}
+// 		else
+// 		{
+// 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("No cargo el personaje"));
+// 		}
+// 	}
+// }
 
 
 
