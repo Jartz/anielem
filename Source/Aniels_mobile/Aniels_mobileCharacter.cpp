@@ -18,7 +18,7 @@
 #include "AbilityStruct.h"
 #include "EngineUtils.h"
 // #include "NavigationSystem.h"
-// #include "AIController.h"
+#include "AIController.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -91,6 +91,12 @@ void AAniels_mobileCharacter::BeginPlay()
 	// Opcionalmente, puedes ocultar el cursor predeterminado del motor
 	PlayerController->bEnableMouseOverEvents = true;
 	PlayerController->bEnableClickEvents = true;
+
+	// add AiController default
+	AIControllerPlayer = GetWorld()->SpawnActor<AAIController>(AAIController::StaticClass());
+
+	FollowPokemonInitial();
+	
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->SetInputMode(FInputModeGameAndUI());
 }
 
@@ -283,18 +289,56 @@ void AAniels_mobileCharacter::CambiarEntrePersonajes()
 	ACharacter* CurrentCharacter = Cast<ACharacter>(PlayerController->GetPawn());
 	for (TActorIterator<ACharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
-		ACharacter* Character = *ActorItr;
-		AAniels_mobileCharacter* AnielsCharacter = Cast<AAniels_mobileCharacter>(Character);
-		if (CurrentCharacter != Character && AnielsCharacter) {
-		//	PlayerController->UnPossess();
-			PlayerController->Possess(Character);
-			FollowCharacter(Character,CurrentCharacter);
+		ACharacter* NewCharacter = *ActorItr;
+		AAniels_mobileCharacter* AnielsCharacter = Cast<AAniels_mobileCharacter>(NewCharacter);
+		if (CurrentCharacter != NewCharacter && AnielsCharacter) {
+			PlayerController->Possess(NewCharacter);
+			FollowCharacter(NewCharacter,CurrentCharacter, PlayerController);
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, NewCharacter->GetName());
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, Character->GetName());
 	}
-
-	//LoadCharacter();
 }
+
+void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter, APlayerController* PlayerController)
+{
+
+	if (IsHuman) { return; }
+	ACharacter* CurrentCharacter = Cast<ACharacter>(FollowerCharacter);
+	AIControllerPlayer->Possess(CurrentCharacter);
+	
+	if (CharacterToFollow && FollowerCharacter)
+	{
+		if (AIControllerPlayer)
+		{
+			AIControllerPlayer->MoveToActor(CharacterToFollow);
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("The controller no have AIControllerPlayer"));
+		}
+	}
+}
+
+
+void AAniels_mobileCharacter::FollowPokemonInitial()
+{
+	if (IsHuman) {return;}
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("FollowPokemonInitial"));
+	TArray<ACharacter*> CharactersInLevel;
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	ACharacter* CurrentCharacterPLayer = Cast<ACharacter>(PlayerController->GetPawn());
+
+	for (TActorIterator<ACharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		ACharacter* NewCharacter = *ActorItr;
+		AAniels_mobileCharacter* AnielsCharacter = Cast<AAniels_mobileCharacter>(NewCharacter);
+		if (CurrentCharacterPLayer != NewCharacter && AnielsCharacter) {
+			FollowCharacter(CurrentCharacterPLayer,NewCharacter, PlayerController);
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, CurrentCharacterPLayer->GetName());
+		}
+	}
+}
+
 
 
 void AAniels_mobileCharacter::LoadCharacter()
@@ -321,24 +365,6 @@ void AAniels_mobileCharacter::LoadCharacter()
 	}
 }
 
-void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter)
-{
-	// if (CharacterToFollow && FollowerCharacter)
-	// {
-	// 	if (AAIController* FollowerAIController = Cast<AAIController>(FollowerCharacter->GetController()))
-	// 	{
-	// 		UNavigationSystemV1* NavigationSystem = UNavigationSystemV1::GetCurrent(GetWorld());
-	// 		if (NavigationSystem)
-	// 		{
-	// 			FollowerAIController->MoveToActor(CharacterToFollow);
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("The controller no have AIController"));
-	// 	}
-	// }
-}
 
 
 

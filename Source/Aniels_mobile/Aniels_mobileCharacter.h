@@ -8,6 +8,7 @@
 #include "Pet_characters.h"
 #include "GameFramework/Character.h"
 #include "AbilityStruct.h"
+#include "AIController.h"
 #include "Aniels_mobileCharacter.generated.h"
 
 
@@ -48,15 +49,21 @@ class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterfac
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UUserWidget* WidgetMenu;
+	AAIController* AIControllerPlayer;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
+	bool IsHuman = true;
 
 public:
 	AAniels_mobileCharacter();
 	void PressAbility_Implementation(const FAbilityStruct& AbilityStruct) override;
 	void makeDamage(const FAbilityStruct& AbilityStruct);
 	void CambiarEntrePersonajes();
+	void FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter,
+	                     APlayerController* PlayerController);
+	void FollowPokemonInitial();
 	void LoadCharacter();
-	void FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter);
+
 
 private:
 	
