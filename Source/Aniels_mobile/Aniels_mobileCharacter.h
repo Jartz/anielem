@@ -4,16 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Private/Interfaces/ActionAbilityInterface.h"
+#include "Private/Interfaces/CombatInterface.h"
 #include "InputActionValue.h"
 #include "Pet_characters.h"
 #include "GameFramework/Character.h"
 #include "AbilityStruct.h"
 #include "AIController.h"
+#include "Model/CombatStruct.h"
 #include "Aniels_mobileCharacter.generated.h"
 
 
 UCLASS(config=Game)
-class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterface
+class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -43,6 +45,7 @@ class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterfac
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
 	double Health = 100.0f;
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UUserWidget* WidgetHealth;
@@ -57,7 +60,12 @@ class AAniels_mobileCharacter : public ACharacter, public IActionAbilityInterfac
 
 public:
 	AAniels_mobileCharacter();
+
+	// Interface	
 	void PressAbility_Implementation(const FAbilityStruct& AbilityStruct) override;
+	void ActionCombat_Implementation(const FCombatStruct& CombatStruct) override;
+
+	// Method
 	void makeDamage(const FAbilityStruct& AbilityStruct);
 	void CambiarEntrePersonajes();
 	void FollowCharacter(ACharacter* CharacterToFollow, ACharacter* FollowerCharacter,
@@ -66,8 +74,6 @@ public:
 	void FollowPokemonToPlayer();
 	void LoadCharacter();
 
-
-	
 
 protected:
 

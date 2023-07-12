@@ -25,7 +25,6 @@ struct FAbilityStruct
 	UPROPERTY(BlueprintReadWrite, Category = "Ability")
 	float Damage;
 	
-
 	UPROPERTY(BlueprintReadWrite, Category = "Ability")
 	UTexture2D* IconName;
 	

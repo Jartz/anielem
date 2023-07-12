@@ -17,11 +17,8 @@
 #include "Engine/DamageEvents.h"
 #include "AbilityStruct.h"
 #include "EngineUtils.h"
-// #include "NavigationSystem.h"
 #include "AIController.h"
-// #include "Aniels_mobile/Public/Helper/Helper.h"
 #include "Helper/Helper.h"
-#include "Perception/AIPerceptionComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Perception/PawnSensingComponent.h"
 
@@ -267,21 +264,64 @@ void AAniels_mobileCharacter::SetHealth(float Value) const
 
 void AAniels_mobileCharacter::PressAbility_Implementation(const FAbilityStruct& AbilityStruct)
 {
-	makeDamage(AbilityStruct);
+	makeDamage(AbilityStruct);	
+}
+
+void AAniels_mobileCharacter::ActionCombat_Implementation(const FCombatStruct& CombatStruct)
+{
+	
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Purple, TEXT("ActionCombat_Implementation"));
 
 }
 
 
 void AAniels_mobileCharacter::makeDamage(const FAbilityStruct& AbilityStruct)
 {
-	APet_characters* EnemyPet = GetEnemyPetInstance();
-	if(EnemyPet)
+
+	GEngine->AddOnScreenDebugMessage(-1,2.0f,FColor::Black,TEXT("makeDamage"));
+	
+	FVector Start = GetActorLocation();
+	FVector End =  (GetActorForwardVector() * 250.0f) + Start ;
+	TArray<AActor*> ActorIgnore;
+	ActorIgnore.Add(GetController()->GetPawn());
+	TArray<FHitResult> OutHits;
+	const bool Hits = UKismetSystemLibrary::SphereTraceMulti(GetWorld(),
+		Start,
+		End,
+		20.0f,
+		UEngineTypes::ConvertToTraceType(ECC_Camera),
+		false,
+		ActorIgnore,
+		EDrawDebugTrace::ForDuration,
+		OutHits,
+		true
+		);
+	
+	if (Hits)
 	{
-		FString damageText = FString::Printf(TEXT("Apply Damage: %.2f"), AbilityStruct.Damage);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, damageText);
-		EnemyPet->TakeDamage(AbilityStruct.Damage,FDamageEvent{}, GetController(), this);	
+	
+		for (const FHitResult Hit : OutHits)
+		{
+			GEngine->AddOnScreenDebugMessage(-1,
+				2.0f,
+				FColor::Green,
+				FString::Printf(TEXT("Hit damage:  %s"),*Hit.GetActor()->GetName()));
+
+			APet_characters* EnemyPet = GetEnemyPetInstance();
+			if(EnemyPet)
+			{
+				FString damageText = FString::Printf(TEXT("Apply Damage: %.2f"), AbilityStruct.Damage);
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, damageText);
+				EnemyPet->TakeDamage(AbilityStruct.Damage,FDamageEvent{}, GetController(), this);	
+			}
+			break;
+		}
 	}
 }
+
+
+
 
 void AAniels_mobileCharacter::CambiarEntrePersonajes()
 {
@@ -315,9 +355,10 @@ void AAniels_mobileCharacter::LoadSensingComponent()
 
 void AAniels_mobileCharacter::OnSeePawnHandler(APawn* DetectedPawn)
 {
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, DetectedPawn->GetName());
 	if (!isMoved)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("OnSeePawnHandler"));
 		FollowPokemonToPlayer();	
 	}
 }
@@ -354,7 +395,7 @@ void AAniels_mobileCharacter::FollowCharacter(ACharacter* CharacterToFollow, ACh
 		if (AIControllerPlayer)
 		{
 				AIControllerPlayer->MoveToActor(CharacterToFollow);
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("MoveToActor"));
+			//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("MoveToActor"));
 		}
 		else
 		{

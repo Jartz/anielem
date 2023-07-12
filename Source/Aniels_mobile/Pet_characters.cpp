@@ -40,10 +40,16 @@ float APet_characters::TakeDamage(float DamageAmount, FDamageEvent const& Damage
 {
 	Health -= DamageAmount;
 
-	if (Health <= 0.0f)
+	if (Health <= 0.0f && !isDeath)
 	{
+		FString AnimationPath = "/Game/Assets/Pokemon/Scyther/Animations/Anim_Scyther_Faint.Anim_Scyther_Faint";
+		UAnimationAsset* Animation = Cast<UAnimationAsset>(StaticLoadObject(UAnimationAsset::StaticClass(), nullptr, *AnimationPath));
+		ACharacter* CurrentCharacter = Cast<ACharacter>(this->GetController()->GetPawn());
+		CurrentCharacter->GetMesh()->PlayAnimation(Animation, false);
+		
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Enemy is death"));
-		this->Destroy();
+		SetLifeSpan(3.0f);
+		isDeath = true;
 	}
 	
 	return Health;
